@@ -84,12 +84,15 @@ def get_video_urls(video_id):
     tree = __get_tree(API_URL % video_id)
     swf_url = tree.find('media:content')['url']
     if not swf_url:
-        raise NotImplementedError
+        raise NotImplementedError('Api returned no playable media')
+    log('get_video_urls opening url: %s' % swf_url)
     resp = urllib2.urlopen(swf_url)
     match = re.search(re_json, resp.url)
     if not match:
-        raise NotImplementedError
+        raise NotImplementedError('Wrong redirect')
     json_data = json.loads(unquote(match.group(0)).split('=')[1])
+    if not json_data:
+        raise NotImplementedError('Empty json')
     video_urls = {
         'HD': get(json_data.get('highDefinitionMP4', {})),
         'SD': get(json_data.get('MP4', {})),

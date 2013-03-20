@@ -123,5 +123,6 @@ if __name__ == '__main__':
         plugin.run()
     except scraper.NetworkError:
         plugin.notify(msg=_('network_error'))
-    except NotImplementedError:
+    except NotImplementedError, message:
         plugin.notify(msg=_('not_implemented'))
+        log('NotImplementedError: %s' % message)
