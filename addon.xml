@@ -11,7 +11,7 @@
     <extension point="xbmc.addon.metadata">
         <language></language>
         <platform>all</platform>
-        <summary lang="en">FIXME</summary>
-        <description lang="en">FIXME</description>
+        <summary lang="en">videos from www.metacafe.com</summary>
+        <description lang="en">One of the world's largest video sites, serving the best videos, funniest movies and clips.</description>
     </extension>
 </addon>
