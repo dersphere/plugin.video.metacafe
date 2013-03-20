@@ -22,6 +22,7 @@ from resources.lib import scraper
 
 STRINGS = {
     'next_videos': 30001,
+    'search': 30002,
     'network_error': 30150,
     'not_implemented': 30151,
 }
@@ -39,7 +40,24 @@ def show_categories():
             path=category['path'],
         )
     } for category in scraper.get_categories()]
+    items.append({
+        'label': _('search'),
+        'path': plugin.url_for(
+            endpoint='search',
+        )
+    })
     return plugin.finish(items)
+
+
+@plugin.route('/search/')
+def search():
+    search_string = plugin.keyboard(heading=_('search'))
+    if search_string:
+        url = plugin.url_for(
+            'show_videos',
+            path=scraper.get_search_path(search_string)
+        )
+        plugin.redirect(url)
 
 
 @plugin.route('/videos/<path>/')

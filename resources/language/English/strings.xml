@@ -2,6 +2,7 @@
 <strings>
     <!-- Default strings -->
     <string id="30001">More Videos</string>
+    <string id="30002">Search</string>
     <!-- Settings -->
     <string id="30100">Force ViewMode "Thumbnail"</string>
     <string id="30110">Video Resolution</string>

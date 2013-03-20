@@ -20,7 +20,7 @@
 import json
 import re
 import urllib2
-from urllib import unquote, urlencode
+from urllib import quote, unquote, urlencode
 from BeautifulSoup import BeautifulSoup
 
 MAIN_URL = 'http://www.metacafe.com'
@@ -43,6 +43,10 @@ def get_categories():
             #'thumb': li.find('img')['src'],
         })
     return categories
+
+
+def get_search_path(search_string):
+    return '/videos_about/%s/' % quote(search_string)
 
 
 def get_videos(path):
