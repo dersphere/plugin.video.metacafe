@@ -33,7 +33,7 @@ plugin = Plugin()
 def show_categories():
     items = [{
         'label': category['title'],
-        'thumbnail': category['thumb'],
+        #'thumbnail': category['thumb'],
         'path': plugin.url_for(
             endpoint='show_videos',
             path=category['path'],

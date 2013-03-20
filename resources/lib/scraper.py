@@ -33,20 +33,14 @@ class NetworkError(Exception):
 
 
 def get_categories():
-    url = MAIN_URL
+    url = MAIN_URL + '/videos_about/'
     categories = []
-    ul = __get_tree(url).find('ul', {'class': 'Categories'})
-    for li in ul.findAll('li'):
-        if not li.a:
-            continue
-        if 'music' in li.a['href']:
-            continue
-        if 'games' in li.a['href']:
-            continue
+    ul = __get_tree(url).find('select', {'name': 'categories'})
+    for option in ul.findAll('option'):
         categories.append({
-            'path': li.a['href'],
-            'title': li.a['title'],
-            'thumb': li.find('img')['src'],
+            'path': option['value'],
+            'title': option.string,
+            #'thumb': li.find('img')['src'],
         })
     return categories
 
@@ -59,7 +53,7 @@ def get_videos(path):
     url = MAIN_URL + path
     tree = __get_tree(url)
     videos = []
-    ul = tree.find('ul', {'class': re.compile('ItemCatalog Group CatID2')})
+    ul = tree.find('ul', {'class': re.compile('ItemCatalog Group CatID1')})
     for li in ul.findAll('li'):
         div = li.find('div', {'class': 'ItemThumb'})
         a = li.find('a')
@@ -68,9 +62,9 @@ def get_videos(path):
             'title': div.img.get('title') or a.get('title') or '',
             'id': video_id(a['href'])
         })
-    next_path = tree.find('a', {'class': 'LoadMore'})['href']
+    next_path = tree.find('a', {'title': 'Browse to next page'})
     if next_path:
-        next_path = next_path.replace(MAIN_URL, '')
+        next_path = next_path['href'].replace(MAIN_URL, '')
     return videos, next_path
 
 
