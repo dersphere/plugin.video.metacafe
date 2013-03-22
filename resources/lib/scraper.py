@@ -105,10 +105,11 @@ def get_video_urls(video_id):
     return video_urls
 
 
-def get_muzu_url(video_id):
+def get_muzu_url(video_id, quality):
+    res = '720' if quality == 'HD' else '480'
     url = (
         'http://www.muzu.tv/player/requestVideo'
-        '?viewhash=yDh3wqYwX2fReTr6itNrrbN8yzI&qv=480&ai=%s' % video_id
+        '?viewhash=yDh3wqYwX2fReTr6itNrrbN8yzI&qv=%s&ai=%s' % (res, video_id)
     )
     log('get_muzu_url opening url: %s' % url)
     video_url = json.loads(urllib2.urlopen(url).read()).get('url')

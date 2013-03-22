@@ -96,6 +96,7 @@ def show_videos(path):
 
 @plugin.route('/video/<video_id>')
 def play_video(video_id):
+    quality = plugin.get_setting('quality', choices=('SD', 'HD'))
     if video_id.startswith('yt'):
         youtube_id = video_id.split('yt-')[1]
         playable_url = (
@@ -104,10 +105,9 @@ def play_video(video_id):
         )
     elif video_id.startswith('mu'):
         muzu_id = video_id.split('mu-')[1]
-        playable_url = scraper.get_muzu_url(muzu_id)
+        playable_url = scraper.get_muzu_url(muzu_id, quality)
     else:
         playable_urls = scraper.get_video_urls(video_id)
-        quality = plugin.get_setting('quality', choices=('SD', 'HD'))
         playable_url = (
             playable_urls.get(quality)
             or playable_urls['SD']
