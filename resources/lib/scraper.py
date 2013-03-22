@@ -101,6 +101,16 @@ def get_video_urls(video_id):
     return video_urls
 
 
+def get_muzu_url(video_id):
+    url = (
+        'http://www.muzu.tv/player/requestVideo'
+        '?viewhash=yDh3wqYwX2fReTr6itNrrbN8yzI&qv=480&ai=%s' % video_id
+    )
+    log('get_muzu_url opening url: %s' % url)
+    json_data = json.loads(urllib2.urlopen(url).read())
+    return json_data['url']
+
+
 def __get_tree(url):
     log('__get_tree opening url: %s' % url)
     headers = {'User-Agent': USER_AGENT}

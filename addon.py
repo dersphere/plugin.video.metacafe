@@ -96,13 +96,26 @@ def show_videos(path):
 
 @plugin.route('/video/<video_id>')
 def play_video(video_id):
-    playable_urls = scraper.get_video_urls(video_id)
-    quality = plugin.get_setting('quality', choices=('SD', 'HD'))
-    playable_url = (
-        playable_urls.get(quality)
-        or playable_urls['SD']
-        or playable_urls['flv']
-    )
+    if video_id.startswith('yt'):
+        youtube_id = video_id.split('yt-')[1]
+        playable_url = (
+            'plugin://plugin.video.youtube/'
+            '?action=play_video&videoid=%s' % youtube_id
+        )
+    elif video_id.startswith('mu'):
+        muzu_id = video_id.split('mu-')[1]
+        playable_url = scraper.get_muzu_url(muzu_id)
+        if 'invalidTerritory' in playable_url:
+            raise NotImplementedError
+            return
+    else:
+        playable_urls = scraper.get_video_urls(video_id)
+        quality = plugin.get_setting('quality', choices=('SD', 'HD'))
+        playable_url = (
+            playable_urls.get(quality)
+            or playable_urls['SD']
+            or playable_urls['FLV']
+        )
     log('Using URL: %s' % playable_url)
     return plugin.set_resolved_url(playable_url)
 
