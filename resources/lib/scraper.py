@@ -32,6 +32,10 @@ class NetworkError(Exception):
     pass
 
 
+class TerritoryError(Exception):
+    pass
+
+
 def get_categories():
     url = MAIN_URL + '/videos_about/'
     categories = []
@@ -107,8 +111,12 @@ def get_muzu_url(video_id):
         '?viewhash=yDh3wqYwX2fReTr6itNrrbN8yzI&qv=480&ai=%s' % video_id
     )
     log('get_muzu_url opening url: %s' % url)
-    json_data = json.loads(urllib2.urlopen(url).read())
-    return json_data['url']
+    video_url = json.loads(urllib2.urlopen(url).read()).get('url')
+    if 'invalidTerritory' in video_url:
+        raise TerritoryError
+    elif not video_url:
+        raise NotImplementedError
+    return video_url
 
 
 def __get_tree(url):

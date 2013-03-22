@@ -105,9 +105,6 @@ def play_video(video_id):
     elif video_id.startswith('mu'):
         muzu_id = video_id.split('mu-')[1]
         playable_url = scraper.get_muzu_url(muzu_id)
-        if 'invalidTerritory' in playable_url:
-            raise NotImplementedError
-            return
     else:
         playable_urls = scraper.get_video_urls(video_id)
         quality = plugin.get_setting('quality', choices=('SD', 'HD'))
@@ -139,3 +136,5 @@ if __name__ == '__main__':
     except NotImplementedError, message:
         plugin.notify(msg=_('not_implemented'))
         log('NotImplementedError: %s' % message)
+    except scraper.TerritoryError:
+        plugin.notify(msg=_('not_available_in_your_country'))
