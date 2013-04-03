@@ -11,6 +11,11 @@
     <extension point="xbmc.addon.metadata">
         <language></language>
         <platform>all</platform>
+        <website>http://www.metacafe.com/</website>
+        <source>https://github.com/dersphere/plugin.video.metacafe</source>
+        <forum>http://forum.xbmc.org/showthread.php?tid=159948</forum>
+        <email>sphere@dersphere.de</email>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
         <summary lang="en">videos from www.metacafe.com</summary>
         <description lang="en">One of the world's largest video sites, serving the best videos, funniest movies and clips.</description>
     </extension>
